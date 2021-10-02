@@ -10,18 +10,24 @@ running = True
 caption = "Array sort"
 FPS = 30
 
+berAmmout = int(input(f"Enter bar ammount:"))
 display = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 displayX ,displayY = display.get_size()
 
+# berAmmout = displayX
+if berAmmout > displayX:
+    print(f"Max bar ammount is {displayX}")
+    exit()
+
 BarstartPos = random.randint(20,displayY)
-berWidth = 1
-berAmmout = displayX/berWidth
+berWidth = round(displayX/berAmmout)
+
+
 #############################################
 pygame.init()
 clock = pygame.time.Clock()
 pygame.display.set_caption(caption)
 #############################################
-# timer = 100
 start = False
 itration = 0
 time = 0
@@ -48,7 +54,6 @@ def genBars(berammount):
     for i in range(round(berammount)):
         nBer = []
         BarstartY = random.randint (0,displayY)
-        # BarstartY = BarstartX
 
 
 
@@ -57,7 +62,6 @@ def genBars(berammount):
         berList.append(nBer)
         BarstartX += berWidth
     
-    # print(berList)
     return berList
 
 
@@ -65,7 +69,7 @@ def drawBars(berList=list):
     for bar in berList:
         if berWidth >= 5:
             pygame.draw.line(display, WHITE, (bar[0],bar[1]), (bar[0],displayY), berWidth)
-        pygame.draw.rect(display, BLUE, ((bar[0]-4,bar[1]), (berWidth,displayY)), 2)
+        pygame.draw.rect(display, BLUE, ((bar[0]-9,bar[1]), (berWidth,displayY)), 2)
 
 
 
@@ -130,13 +134,12 @@ def text_screen(text, color, x, y):
 
 #############################################
 berlist = genBars(berAmmout)
-# tempBerlist = berlist
 
 drawBars(berlist)
+
 while running:
 
 
-    # sort2 (berlist)
     display.fill((0,0,0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -185,7 +188,6 @@ while running:
     text_screen(f"Time:{time}ms",WHITE,5,45)
     text_screen(f"Bars:{int(berAmmout)}",WHITE,5,85)
     text_screen(f"FPS:{int(FPS)}",WHITE,5,130)
-    # text_screen(f"CPU usage:{int(cpuUseage)}",WHITE,5,85+45+45)
     
     
     clock.tick(FPS)
